@@ -17,6 +17,8 @@ void setup() {
   Serial.begin(9600); // Initialize serial communication for debugging
 }
 
+//hello
+
 void loop() {
   int sensorValue0 = analogRead(analogPin0); // Read the analog value from A0
   int sensorValue1 = analogRead(analogPin1); // Read the analog value from A1
