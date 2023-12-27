@@ -124,6 +124,12 @@ void displayFinalScreen() {
   text("Press 'R' to redo the quiz", width / 2, height / 2 + 180);
 }
 
+void keyReleased() {
+  if (keyCode == ENTER) {
+    enterKeyPressed = false;
+  }
+}
+
 void keyPressed() {
   if (keyCode == ENTER && !enterKeyPressed) {
     enterKeyPressed = true;
@@ -151,8 +157,6 @@ void keyPressed() {
     } else if (questionNumber == questions.length - 1 && answerValue != 0) {
       questionNumber++;
     }
-  } else if (keyCode != ENTER) {
-    enterKeyPressed = false;
   } else if (keyCode == '1' || keyCode == '2' || keyCode == '3') {
     userAnswers[questionNumber] = keyCode - '0';
   } else if (key == 'r' || key == 'R') {
