@@ -26,25 +26,46 @@ void setup() {
 
   // Initialize the questions, options, and additional points
   questions = new String[][] {
-    {"How often do you eat animal-based products?", "Never", "Occasionally", "Often"},
-    {"How much of the food you eat is unprocessed, unpackaged, or locally grown?", "Never", "Occasionally", "Often"},
-    {"How many people live in your household?", "Only me", "Me + partner", "2+"},
-    {"How far do you travel by car or motorcycle each week?", "None", "<100km", ">100km"}
-    // Add more questions as needed
+    {"How many servings of meat do you consume each week?", "0-3 servings", "4-9 servings", "10 or more servings"},
+    {"How much food do you waste on a weekly basis?", "Less than 1 kg", "1-2 kg", "More than 2 kg"},
+    {"What percentage of your produce is local and seasonal?", "75% or more", "50-74%", "Less than 50%"},
+
+    // Energy Consumption
+    {"How many energy-efficient appliances/light bulbs do you use?", "5 or more", "3-4", "2 or fewer"},
+    {"What is your monthly energy consumption?", "Below 300 kWh", "300-600 kWh", "Above 600 kWh"},
+    {"How often do you actively monitor your home energy usage?", "Weekly or more", "Monthly", "Rarely or never"},
+
+    // Transportation Footprint
+    {"How far do you travel by car or motorcycle each week?", "Less than 50 km", "50-150 km", "More than 150 km"},
+    {"How frequently do you travel by air?", "Rarely or never", "1-2 trips per year", "More than 2 trips per year"},
+    {"How many days per week do you commute using a personal vehicle?", "0-2 days", "3-4 days", "5 or more days"},
+
+    // Goods and Services Footprint
+    {"How many clothing items do you purchase annually?", "0-5 items", "6-15 items", "16 or more items"},
+    {"How often do you purchase electronic devices/gadgets?", "Rarely or never", "1-2 times per year", "More than 2 times per year"},
+    {"What percentage of your household items and furniture is sustainable?", "75% or more", "50-74%", "Less than 50%"}
   };
 
   userAnswers = new int[questions.length];
   additionalPoints = new int[]{
     // For Question 1
     100, 200, 300,
+    100, 200, 300,
+    100, 200, 300,
 
     // For Question 2
+    100, 200, 300,
+    100, 200, 300,
     100, 200, 300,
 
     // For Question 3
     100, 200, 300,
+    100, 200, 300,
+    100, 200, 300,
 
     // For Question 4
+    100, 200, 300,
+    100, 200, 300,
     100, 200, 300
     // Add more points as needed
   };
