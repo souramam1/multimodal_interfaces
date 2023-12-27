@@ -8,13 +8,16 @@ int[] additionalPoints;
 
 import ddf.minim.*;
 Minim minim;
-AudioPlayer player;
+AudioSnippet enterSound;  // Use AudioSnippet for additional sounds
+AudioPlayer backgroundMusic;
 
 //////////////////////Added for serial connection //////////////////////////
 import processing.serial.*;
 Serial arduinoPort;
 int receivedList = 32;
 int obj_select = 32;
+
+boolean enterKeyPressed = false;
 
 void setup() {
   printArray(Serial.list());
@@ -60,7 +63,11 @@ void setup() {
   };
 
   minim = new Minim(this);
-  player = minim.loadFile("enter.wav"); // Replace "enter.wav" with your sound file
+  backgroundMusic = minim.loadFile("background-runamok.wav");
+  backgroundMusic.loop();  // Loop the background music
+
+  // Load the enter sound
+  enterSound = minim.loadSnippet("enter.wav");
 }
 
 void draw() {
@@ -118,21 +125,24 @@ void displayFinalScreen() {
 }
 
 void keyPressed() {
-  if (keyCode == ENTER) {
-    if (!player.isPlaying()) {
-      player.play();
-    } else {
-      player.rewind();
-    }
-  }
+  if (keyCode == ENTER && !enterKeyPressed) {
+    enterKeyPressed = true;
 
-  if (keyCode == ENTER) {
+    // Play the enter sound
+    enterSound.rewind();
+    enterSound.play();
+
     int answerValue = userAnswers[questionNumber];
     print(answerValue);
 
     if (answerValue >= 1 && answerValue <= 3) {
-      println("Total Score " + additionalPoints[questionNumber * 3 + (answerValue - 1)]);
-      totalScore += additionalPoints[questionNumber * 3 + (answerValue - 1)];
+      int index = questionNumber * 3 + (answerValue - 1);
+      if (index >= 0 && index < additionalPoints.length) {
+        println("Total Score " + additionalPoints[index]);
+        totalScore += additionalPoints[index];
+      } else {
+        println("Invalid index: " + index);
+      }
     }
 
     if (questionNumber < questions.length - 1 && answerValue != 0) {
@@ -141,6 +151,8 @@ void keyPressed() {
     } else if (questionNumber == questions.length - 1 && answerValue != 0) {
       questionNumber++;
     }
+  } else if (keyCode != ENTER) {
+    enterKeyPressed = false;
   } else if (keyCode == '1' || keyCode == '2' || keyCode == '3') {
     userAnswers[questionNumber] = keyCode - '0';
   } else if (key == 'r' || key == 'R') {
@@ -200,7 +212,9 @@ int getNumPlanets(int score) {
 }
 
 void stop() {
-  player.close();
+  // Close both the player and the snippet
+  enterSound.close();
+  backgroundMusic.close();
   minim.stop();
   super.stop();
 }
