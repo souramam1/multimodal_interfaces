@@ -241,10 +241,14 @@ void objectPlaced(int obj_select) {
     totalScore += additionalPoints[questionNumber * 3 + (answerValue - 1)];
     userAnswers[questionNumber] = answerValue;
 
+    // Play the enter sound
+    enterSound.rewind();
+    enterSound.play();
+
     feedbackTimer = millis();
     showingFeedback = true;
 
-    // Call displayFeedback when user answers the question
+    // Call displayFeedback when the user answers the question
     displayFeedback(userAnswers[questionNumber], questions[questionNumber]);
 
     if (questionNumber < questions.length - 1) {
@@ -270,6 +274,7 @@ void objectPlaced(int obj_select) {
     state = 2;  // Move to the second state to start the quiz again
   }
 }
+
 
 void stop() {
   enterSound.close();
