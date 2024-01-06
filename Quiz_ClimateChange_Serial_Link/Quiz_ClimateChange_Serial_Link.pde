@@ -30,11 +30,18 @@ void setup() {
   textFont(customFont);
 
   questions = new String[][] {
-    {"How often do you eat animal-based products?", "Never", "Occasionally", "Often", "background1.jpg"},
-    {"How much of the food you eat is unprocessed, unpackaged, or locally grown?", "Never", "Occasionally", "Often", "background2.jpg"},
-    {"How many people live in your household?", "Only me", "Me + partner", "2+", "background3.jpg"},
-    {"How far do you travel by car or motorcycle each week?", "None", "<100km", ">100km", "background4.jpg"}
-    // Add more questions as needed
+    {"How many servings of meat do you consume each week?", "0-3 servings", "4-9 servings", "10 or more servings", "background1.jpg"},
+    {"How much food do you waste on a weekly basis?", "Less than 1 kg", "1-2 kg", "More than 2 kg", "background1.jpg"},
+    {"What percentage of your produce is local and seasonal?", "75% or more", "50-74%", "Less than 50%", "background1.jpg"},
+    {"How many energy-efficient appliances/light bulbs do you use?", "5 or more", "3-4", "2 or fewer", "background2.jpg"},
+    {"What is your monthly energy consumption?", "Below 300 kWh", "300-600 kWh", "Above 600 kWh", "background2.jpg"},
+    {"How often do you actively monitor your home energy usage?", "Weekly or more", "Monthly", "Rarely or never", "background2.jpg"},
+    {"How far do you travel by car or motorcycle each week?", "Less than 50 km", "50-150 km", "More than 150 km", "background3.jpg"},
+    {"How frequently do you travel by air?", "Rarely or never", "1-2 trips per year", "More than 2 trips per year", "background3.jpg"},
+    {"How many days per week do you commute using a personal vehicle?", "0-2 days", "3-4 days", "5 or more days", "background3.jpg"},
+    {"How many clothing items do you purchase annually?", "0-5 items", "6-15 items", "16 or more items", "background4.jpg"},
+    {"How often do you purchase electronic devices/gadgets?", "Rarely or never", "1-2 times per year", "More than 2 times per year", "background4.jpg"},
+    {"What percentage of your household items and furniture is sustainable?", "75% or more", "50-74%", "Less than 50%", "background4.jpg"}
   };
 
   userAnswers = new int[questions.length];
