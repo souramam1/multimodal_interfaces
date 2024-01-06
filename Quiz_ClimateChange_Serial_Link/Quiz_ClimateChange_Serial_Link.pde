@@ -227,11 +227,6 @@ void keyPressed() {
         finalVideo.loop();
       }
     }
-  } else if (keyCode == '1' || keyCode == '2' || keyCode == '3') {
-    userAnswers[questionNumber] = keyCode - '0';
-    enterSound.rewind();
-    enterSound.play();
-    state++;
   } else if (key == 'r' || key == 'R') {
     questionNumber = 0;
     totalScore = 0;
@@ -241,36 +236,36 @@ void keyPressed() {
 }
 
 void objectPlaced(int obj_select) {
-  print("HERE");
-  print(obj_select);
-  if (obj_select != 0) {
-    println("Here 2");
+  println("HERE" + obj_select);
+
+  if (obj_select >= 1 && obj_select <= 3) {
     int answerValue = obj_select;
-    println(answerValue);
+    totalScore += additionalPoints[questionNumber * 3 + (answerValue - 1)];
+    userAnswers[questionNumber] = answerValue;
 
-    if (answerValue >= 1 && answerValue <= 3) {
-      println("Total Score " + additionalPoints[questionNumber * 3 + (answerValue - 1)]);
-      totalScore += additionalPoints[questionNumber * 3 + (answerValue - 1)];
-    }
-
-    if (questionNumber < questions.length - 1 && answerValue != 0) {
-      questionNumber++;
-      userAnswers[questionNumber - 1] = 0;
-    } else if (questionNumber == questions.length - 1 && answerValue != 0) {
-      questionNumber++;
-    }
     feedbackTimer = millis();
     showingFeedback = true;
-  } else if (obj_select == 1 || obj_select == 2 || obj_select == 3) {
-    userAnswers[questionNumber] = obj_select - 0;
-    feedbackTimer = millis();
-    showingFeedback = true;
+
+    if (questionNumber < questions.length - 1) {
+      // Transition to the next question
+      questionNumber++;
+      state = questionNumber * 2 + 2;
+    } else if (questionNumber == questions.length - 1) {
+      // Move to the final state if this is the last question
+      state = questions.length * 2 + 2;
+      if (userAnswers[questionNumber] != 0 && !finalVideo.isPlaying()) {
+        finalVideo.loop();
+      }
+    }
   } else if (key == 'r' || key == 'R') {
+    // Reset the quiz if 'R' is pressed
     questionNumber = 0;
     totalScore = 0;
     userAnswers = new int[questions.length];
+    state = 2;  // Move to the second state to start the quiz again
   }
 }
+
 
 void stop() {
   enterSound.close();
