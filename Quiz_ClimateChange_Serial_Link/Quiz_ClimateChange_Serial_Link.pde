@@ -5,7 +5,6 @@ import processing.serial.*;
 Serial arduinoPort;
 int obj_select = 0;
 
-PImage planetImage;
 int questionNumber = 0;
 int totalScore = 0;
 int[] userAnswers;
@@ -29,7 +28,6 @@ void setup() {
   textAlign(CENTER, CENTER);
   customFont = createFont("font.otf", 12);
   textFont(customFont);
-  planetImage = loadImage("planet.jpg");
 
   questions = new String[][] {
     {"How often do you eat animal-based products?", "Never", "Occasionally", "Often", "background1.jpg"},
@@ -81,27 +79,26 @@ void draw() {
         showingFeedback = true;
       }
 
-      if (showingFeedback && millis() < feedbackTimer + 3000) {
+      if (showingFeedback) {
+        // Display feedback for 4 seconds
         displayFeedback(userAnswers[questionIndex], questions[questionIndex]);
-      } else {
-        if (questionIndex < questions.length - 1) {
-          questionNumber++;
-          state = questionNumber * 2 + 2;
-          userAnswers[questionNumber - 1] = 0;
-          showingFeedback = false;
-        } else {
-          state = questions.length * 2 + 2;
+        if (millis() > feedbackTimer + 4000) {
+          showingFeedback = false;  // Move this line here
+          if (questionIndex < questions.length - 1) {
+            questionNumber++;
+            state = questionNumber * 2 + 2;
+            userAnswers[questionNumber - 1] = 0;
+          } else {
+            state = questions.length * 2 + 2;
+          }
         }
+      } else {
+        // Display question when not showing feedback
+        displayQuestion(questions[questionIndex]);
       }
     }
   } else if (state == questions.length * 2 + 2) {
     image(finalVideo, 0, 0, width, height);
-    int numPlanets = getNumPlanets(totalScore);
-    for (int i = 0; i < numPlanets; i++) {
-      float x = map(i, 0, numPlanets, 50, width - 50);
-      float y = height / 2;
-      image(planetImage, x - 50, y - 50, 100, 100);
-    }
 
     fill(255);
     textSize(24);
@@ -117,6 +114,7 @@ void draw() {
     }
   }
 }
+
 
 void displayBackground(String background, int duration) {
   PImage currentBackgroundImage = loadImage(background);
@@ -246,10 +244,17 @@ void objectPlaced(int obj_select) {
     feedbackTimer = millis();
     showingFeedback = true;
 
+    // Call displayFeedback when user answers the question
+    displayFeedback(userAnswers[questionNumber], questions[questionNumber]);
+
     if (questionNumber < questions.length - 1) {
-      // Transition to the next question
-      questionNumber++;
-      state = questionNumber * 2 + 2;
+      // Transition to the next question after 4 seconds
+      if (millis() > feedbackTimer + 4000) {
+        questionNumber++;
+        state = questionNumber * 2 + 2;
+        userAnswers[questionNumber - 1] = 0;
+        showingFeedback = false;
+      }
     } else if (questionNumber == questions.length - 1) {
       // Move to the final state if this is the last question
       state = questions.length * 2 + 2;
@@ -265,7 +270,6 @@ void objectPlaced(int obj_select) {
     state = 2;  // Move to the second state to start the quiz again
   }
 }
-
 
 void stop() {
   enterSound.close();
