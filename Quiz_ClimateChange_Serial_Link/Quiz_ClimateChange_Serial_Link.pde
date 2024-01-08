@@ -184,6 +184,7 @@ void displayFeedback(int userChoice, String[] question) {
 }
 
 String getPlanetInfo(int score) {
+  textSize(35);
   return "You would need " + getNumPlanets(score) + " planet(s) to sustain your lifestyle.";
 }
 
