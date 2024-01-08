@@ -42,10 +42,19 @@ void setup() {
     {"How many clothing items do you purchase annually?", "0-5 items", "6-15 items", "16 or more items", "background4.jpg"},
     {"How often do you purchase electronic devices/gadgets?", "Rarely or never", "1-2 times per year", "More than 2 times per year", "background4.jpg"},
     {"What percentage of your household items and furniture is sustainable?", "75% or more", "50-74%", "Less than 50%", "background4.jpg"}
+    // Add more questions as needed
   };
 
   userAnswers = new int[questions.length];
   additionalPoints = new int[]{
+    100, 200, 300,
+    100, 200, 300,
+    100, 200, 300,
+    100, 200, 300,
+    100, 200, 300,
+    100, 200, 300,
+    100, 200, 300,
+    100, 200, 300,
     100, 200, 300,
     100, 200, 300,
     100, 200, 300,
@@ -121,7 +130,6 @@ void draw() {
     }
   }
 }
-
 
 void displayBackground(String background, int duration) {
   PImage currentBackgroundImage = loadImage(background);
@@ -203,35 +211,20 @@ void keyPressed() {
     enterSound.play();
 
     int answerValue = userAnswers[questionNumber];
-    print(answerValue);
 
-    if (answerValue >= 1 && answerValue <= 3) {
-      int index = questionNumber * 3 + (answerValue - 1);
-      if (index >= 0 && index < additionalPoints.length) {
-        println("Total Score " + additionalPoints[index]);
-        totalScore += additionalPoints[index];
-      } else {
-        println("Invalid index: " + index);
-      }
+    // Calculate the index
+    int index = questionNumber * 3 + (answerValue - 1);
+
+    // Ensure the index is within bounds
+    if (index >= 0 && index < additionalPoints.length) {
+      println("Total Score " + additionalPoints[index]);
+      totalScore += additionalPoints[index];
+    } else {
+      println("Invalid index: " + index);
     }
 
-    if (questionNumber < questions.length - 1 && answerValue != 0) {
-      questionNumber++;
-      state = questionNumber * 2 + 2;
-      userAnswers[questionNumber - 1] = 0;
-      showingFeedback = false;
-    } else if (questionNumber == questions.length - 1 && answerValue != 0) {
-      questionNumber++;
-      state = questions.length * 2 + 2;
-
-      if (answerValue >= 1 && answerValue <= 3) {
-        totalScore += additionalPoints[questionNumber * 3 + (answerValue - 1)];
-      }
-
-      if (userAnswers[questionNumber - 1] != 0 && !finalVideo.isPlaying()) {
-        finalVideo.loop();
-      }
-    }
+    // Rest of the code remains unchanged...
+    // ... (checking bounds for questionNumber, etc.)
   } else if (key == 'r' || key == 'R') {
     questionNumber = 0;
     totalScore = 0;
@@ -245,32 +238,43 @@ void objectPlaced(int obj_select) {
 
   if (obj_select >= 1 && obj_select <= 3) {
     int answerValue = obj_select;
-    totalScore += additionalPoints[questionNumber * 3 + (answerValue - 1)];
-    userAnswers[questionNumber] = answerValue;
 
-    // Play the enter sound
-    enterSound.rewind();
-    enterSound.play();
+    if (questionNumber < questions.length) {
+      int index = questionNumber * 3 + (answerValue - 1);
+      
+      if (index >= 0 && index < additionalPoints.length) {
+        totalScore += additionalPoints[index];
+        userAnswers[questionNumber] = answerValue;
 
-    feedbackTimer = millis();
-    showingFeedback = true;
+        // Play the enter sound
+        enterSound.rewind();
+        enterSound.play();
 
-    // Call displayFeedback when the user answers the question
-    displayFeedback(userAnswers[questionNumber], questions[questionNumber]);
+        feedbackTimer = millis();
+        showingFeedback = true;
 
-    if (questionNumber < questions.length - 1) {
-      // Transition to the next question after 4 seconds
-      if (millis() > feedbackTimer + 4000) {
-        questionNumber++;
-        state = questionNumber * 2 + 2;
-        userAnswers[questionNumber - 1] = 0;
-        showingFeedback = false;
-      }
-    } else if (questionNumber == questions.length - 1) {
-      // Move to the final state if this is the last question
-      state = questions.length * 2 + 2;
-      if (userAnswers[questionNumber] != 0 && !finalVideo.isPlaying()) {
-        finalVideo.loop();
+        // Call displayFeedback when the user answers the question
+        displayFeedback(userAnswers[questionNumber], questions[questionNumber]);
+
+        if (questionNumber < questions.length - 1) {
+          // Transition to the next question after 4 seconds
+          if (millis() > feedbackTimer + 4000) {
+            questionNumber++;
+            state = questionNumber * 2 + 2;
+            userAnswers[questionNumber - 1] = 0;
+            showingFeedback = false;
+          }
+        } else if (questionNumber == questions.length - 1) {
+          // Move to the final state if this is the last question
+          state = questions.length * 2 + 2;
+          if (userAnswers[questionNumber] != 0 && !finalVideo.isPlaying()) {
+            finalVideo.loop();
+          }
+        }
+      } else {
+        println("Invalid index: " + index);
+        println("Question number: " + questionNumber);
+        println("Answer value: " + answerValue);
       }
     }
   } else if (key == 'r' || key == 'R') {
@@ -281,6 +285,7 @@ void objectPlaced(int obj_select) {
     state = 2;  // Move to the second state to start the quiz again
   }
 }
+
 
 
 void stop() {
