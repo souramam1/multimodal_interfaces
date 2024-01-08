@@ -24,7 +24,7 @@ Movie finalVideo;
 
 void setup() {
   arduinoPort = new Serial(this, Serial.list()[2], 9600);
-  size(1400, 800);
+  size(1273, 730);
   textAlign(CENTER, CENTER);
   customFont = createFont("font.otf", 12);
   textFont(customFont);
@@ -190,15 +190,15 @@ String getPlanetInfo(int score) {
 
 int getNumPlanets(int score) {
   println("Score " + score);
-  if (score >= 1000) {
+  if (score >= 10000) {
     return 5;
-  } else if (score >= 800) {
+  } else if (score >= 2500) {
     return 4;
-  } else if (score >= 600) {
+  } else if (score >= 2000) {
     return 3;
-  } else if (score >= 400) {
+  } else if (score >= 1500) {
     return 2;
-  } else if (score >= 200) {
+  } else if (score >= 1000) {
     return 1;
   } else {
     return 0;
