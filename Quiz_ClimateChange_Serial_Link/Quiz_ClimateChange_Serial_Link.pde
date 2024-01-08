@@ -87,7 +87,7 @@ void draw() {
   } else if (state >= 2 && state < questions.length * 2 + 2) {
     int questionIndex = (state - 2) / 2;
     if ((state - 2) % 2 == 0) {
-      displayBackgroundAndQuestion(questions[questionIndex][4], 20000, questions[questionIndex]);
+      displayBackgroundAndQuestion(questions[questionIndex][4], 2000, questions[questionIndex]);
       showingFeedback = false;
     } else {
       if (userAnswers[questionIndex] != 0 && !showingFeedback) {
