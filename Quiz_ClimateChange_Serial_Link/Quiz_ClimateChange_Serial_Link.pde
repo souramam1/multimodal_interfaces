@@ -26,7 +26,7 @@ void setup() {
   arduinoPort = new Serial(this, Serial.list()[2], 9600);
   size(1273, 730);
   textAlign(CENTER, CENTER);
-  customFont = createFont("font.otf", 12);
+  customFont = createFont("font.ttf", 12);
   textFont(customFont);
 
   questions = new String[][] {
