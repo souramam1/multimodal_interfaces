@@ -154,7 +154,7 @@ void displayBackgroundAndQuestion(String background, int duration, String[] ques
 }
 
 void displayQuestion(String[] question) {
-  fill(0, 0, 0);
+  fill(114, 116, 68); // Set text color to green
   textSize(36);
   text(question[0], width / 2, height / 2 - 150);
 
@@ -162,7 +162,7 @@ void displayQuestion(String[] question) {
     fill(114, 116, 68);
     rectMode(CENTER);
     rect((i + 1) * width / 4, height / 2, 300, 80, 10);
-    fill(238, 230, 119);
+    fill(255); // Set text color to white
     textSize(20);
     text((i + 1) + ") " + question[i + 1], (i + 1) * width / 4, height / 2);
   }
@@ -170,10 +170,10 @@ void displayQuestion(String[] question) {
 
 void displayFeedback(int userChoice, String[] question) {
   if (userChoice >= 1 && userChoice <= 3) {
-    background(color(114, 116, 68));
+    background(255); // Set background color to white
 
     textFont(customFont);
-    fill(238, 230, 119);
+    fill(114, 116, 68); // Set text color to green
     textSize(55);
     textAlign(CENTER, CENTER);
 
